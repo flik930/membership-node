@@ -1,0 +1,30 @@
+version: "3.3"
+services:
+  express:
+    build:
+      context: ./
+      target: dev
+    restart: always
+    container_name: membership-api
+    volumes:
+      - .:/src
+    command: npm run start:dev
+    links:
+     - mongo:mongodb
+    ports:
+     - 3000:3000
+
+  mongo:
+    container_name: membership-db
+    image: mongo:latest
+    restart: always
+    volumes:
+     - db-data:/data/db
+    ports:
+     - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
+
+volumes:
+  db-data:
