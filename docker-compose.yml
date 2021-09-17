@@ -13,6 +13,10 @@ services:
      - mongo:mongodb
     ports:
      - 3000:3000
+    env_file: 
+     - .env
+    environment:
+      APPLE_APP_ID: ${APPLE_APP_ID}
 
   mongo:
     container_name: membership-db
@@ -25,6 +29,9 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGODB_DATABASE}
+    volumes:
+      - ./mongoScript/init.js:/docker-entrypoint-initdb.d/init.js:ro
 
 volumes:
   db-data:
